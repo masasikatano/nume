@@ -1,0 +1,34 @@
+# 依存関係とビルド出力
+node_modules/
+dist/
+.astro/
+.wrangler/
+
+# キャッシュ
+*.cache
+.mf/
+.vite/
+
+# 環境ファイル
+.env
+.env.local
+.env.*.local
+.dev.vars
+
+# ログ
+*.log
+npm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# バージョン管理
+.git/
+.gitignore
+
+# ビルド時に生成される SEO/AIO アセット
+public/ogp-default.png
+public/apple-touch-icon.png
+public/icon-192.png
+public/icon-512.png

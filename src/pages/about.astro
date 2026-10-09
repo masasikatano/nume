@@ -1,0 +1,74 @@
+---
+export const prerender = true;
+
+import Layout from '@/layouts/Layout.astro';
+import '@/styles/global.css';
+
+const title = 'nume について — 数秘術ライフパスナンバー占い | nume';
+const description =
+  'nume は、生年月日からライフパスナンバーを算出し、数秘術であなたの運命の傾向・強み・使命を占う無料の Web サービスです。サービスの考え方と免責事項を解説します。';
+---
+
+<Layout title={title} description={description}>
+  <main class="min-h-screen bg-white text-[var(--text)]">
+    <div class="max-w-2xl mx-auto px-4 py-8 md:py-12">
+      <nav aria-label="パンくずリスト" class="text-sm text-[var(--text-muted)] mb-6">
+        <ol class="flex gap-2">
+          <li><a href="/" class="underline hover:text-[var(--accent-purple)]">ホーム</a></li>
+          <li aria-hidden="true">/</li>
+          <li aria-current="page">About</li>
+        </ol>
+      </nav>
+
+      <h1 class="text-2xl md:text-3xl font-bold text-[var(--accent-purple)] mb-4">
+        nume について
+      </h1>
+
+      <section class="mb-10" aria-labelledby="concept-heading">
+        <h2 id="concept-heading" class="text-xl font-bold text-[var(--accent-purple)] mb-3">コンセプト</h2>
+        <p class="mb-4">
+          nume（ヌメ）は、生年月日を入力するだけでライフパスナンバー（1〜9）を算出し、数秘術でパーソナライズされた占い解説を受け取れる Web サービスです。
+        </p>
+        <p class="mb-4">
+          数秘術を「決めつける道具」ではなく、「自分の傾向や可能性を客観視するきっかけ」として使うことを大切にしています。決断を迫るのではなく、前向きに自分について語るための手がかりを提供します。
+        </p>
+      </section>
+
+      <section class="mb-10" aria-labelledby="how-heading">
+        <h2 id="how-heading" class="text-xl font-bold text-[var(--accent-purple)] mb-3">ライフパスナンバーの計算方法</h2>
+        <p class="mb-4">
+          生年月日の数字をすべて合計し、一桁になるまで還元した数字がライフパスナンバーです。例えば 1985年4月23日生まれの場合、1+9+8+5+0+4+2+3=32、3+2=5 なのでライフパスナンバーは 5 になります。
+        </p>
+        <p>
+          nume では一般的な数秘術でいうマスターナンバー（11・22・33）は採用せず、すべての数字を一桁まで還元するシンプルな方式を採用しています。計算はサーバー上で行い、同じ関数をクライアントとサーバーで共有しているため、結果にズレが生じません。
+        </p>
+      </section>
+
+      <section class="mb-10" aria-labelledby="llm-heading">
+        <h2 id="llm-heading" class="text-xl font-bold text-[var(--accent-purple)] mb-3">占い解説の生成について</h2>
+        <p class="mb-4">
+          ライフパスナンバーと一言キーワードはあらかじめ用意されたテンプレートで表示し、パーソナライズされた長文の解説は AI（Groq の LLM）が数秘術の占い師として生成します。計算結果そのものは LLM ではなくサーバーのプログラムが行います。
+        </p>
+      </section>
+
+      <section class="mb-10" aria-labelledby="notes-heading">
+        <h2 id="notes-heading" class="text-xl font-bold text-[var(--accent-purple)] mb-3">注意事項</h2>
+        <ul class="list-disc pl-5 space-y-2">
+          <li>このサービスはエンターテインメント・内省のきっかけとして提供されており、専門的な助言（医療、法律、金融など）ではありません。</li>
+          <li>健康や安全、重大な人生の決断については、必ず適切な専門家に相談してください。</li>
+          <li>数秘術の解釈は「絶対的な答え」ではなく、あなた自身の内省を深めるための材料です。</li>
+          <li>入力された生年月日は占いの生成のためにサーバーで処理され、永続的に保存はしません。</li>
+        </ul>
+      </section>
+
+      <div class="text-center">
+        <a
+          href="/"
+          class="inline-block px-6 py-3 rounded-full bg-[var(--accent-purple)] text-white font-bold hover:opacity-90 transition-opacity"
+        >
+          ライフパスナンバーを占う
+        </a>
+      </div>
+    </div>
+  </main>
+</Layout>

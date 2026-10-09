@@ -1,0 +1,16 @@
+name = "nume"
+compatibility_date = "2026-06-18"
+workers_dev = true
+preview_urls = true
+
+# Secrets use `wrangler secret put`
+# GROQ_API_KEY  (required, secret)
+# LLM_MODEL (optional override; default llama-3.3-70b-versatile)
+
+[vars]
+PUBLIC_SITE_URL = "https://nume.scryer.workers.dev"
+
+# For local dev you can also use .dev.vars
+
+[observability]
+enabled = true

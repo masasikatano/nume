@@ -1,0 +1,38 @@
+---
+export const prerender = true;
+
+import Layout from '@/layouts/Layout.astro';
+import NumeApp from '@/components/islands/NumeApp.tsx';
+import '@/styles/global.css';
+
+const title = 'nume — 数秘術ライフパスナンバー占い';
+const description =
+  '生年月日を入力するだけでライフパスナンバー（1〜9）を算出し、あなたの運命の傾向・強み・使命を数秘術で占う無料サービスです。';
+
+const webAppLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: 'nume',
+  applicationCategory: 'LifestyleApplication',
+  operatingSystem: 'Any',
+  offers: {
+    '@type': 'Offer',
+    price: '0',
+    priceCurrency: 'JPY',
+  },
+  description,
+  url: 'https://nume.scryer.workers.dev',
+};
+---
+
+<Layout title={title} description={description} ldJson={webAppLd}>
+  <main class="min-h-[100dvh]">
+    <section class="sr-only">
+      <h1>数秘術ライフパスナンバー占い「nume」</h1>
+      <p>
+        nume（ヌメ）は、生年月日からライフパスナンバーを算出し、数秘術でパーソナライズされた占い解説を受け取れる無料の Web サービスです。
+      </p>
+    </section>
+    <NumeApp client:only="react" />
+  </main>
+</Layout>

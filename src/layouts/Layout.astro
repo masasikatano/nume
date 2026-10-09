@@ -1,0 +1,65 @@
+---
+interface Props {
+  title?: string;
+  description?: string;
+  ogImage?: string;
+  ogType?: string;
+  canonical?: string;
+  ldJson?: Record<string, unknown> | Record<string, unknown>[];
+}
+
+const {
+  title = 'nume — 数秘術ライフパスナンバー占い',
+  description = '生年月日を入力するだけでライフパスナンバー（1〜9）を算出し、あなたの運命の傾向・強み・使命を数秘術で占う無料サービスです。',
+  ogImage = '/ogp-default.png',
+  ogType = 'website',
+  canonical,
+  ldJson,
+} = Astro.props;
+
+const canonicalUrl = canonical ?? new URL(Astro.url.pathname, Astro.site).toString();
+const ogImageUrl = new URL(ogImage, Astro.site).toString();
+
+const webSiteLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'nume',
+  url: Astro.site?.toString() ?? 'https://nume.scryer.workers.dev',
+};
+
+const allLd = Array.isArray(ldJson) ? [webSiteLd, ...ldJson] : ldJson ? [webSiteLd, ldJson] : [webSiteLd];
+---
+
+<!doctype html>
+<html lang="ja">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+		<link rel="manifest" href="/manifest.json" />
+		<meta name="generator" content={Astro.generator} />
+
+		<title>{title}</title>
+		<meta name="description" content={description} />
+		<link rel="canonical" href={canonicalUrl} />
+
+		<meta property="og:site_name" content="nume" />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:type" content={ogType} />
+		<meta property="og:url" content={canonicalUrl} />
+		<meta property="og:image" content={ogImageUrl} />
+		<meta property="og:locale" content="ja_JP" />
+
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:title" content={title} />
+		<meta name="twitter:description" content={description} />
+		<meta name="twitter:image" content={ogImageUrl} />
+
+		<script type="application/ld+json" is:inline set:html={JSON.stringify(allLd)} />
+	</head>
+	<body>
+		<slot />
+	</body>
+</html>

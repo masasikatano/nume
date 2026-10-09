@@ -1,0 +1,96 @@
+---
+export const prerender = true;
+
+import Layout from '@/layouts/Layout.astro';
+import '@/styles/global.css';
+
+const title = 'よくある質問 — nume';
+const description =
+  'nume の使い方、ライフパスナンバーの計算方法、占いの精度、データの取り扱いなどに関するよくある質問と回答です。';
+
+const faqs = [
+  {
+    q: 'nume は無料で使えますか？',
+    a: 'はい、無料でご利用いただけます。レートリミットとして 12 リクエスト / 5 分を設けています。',
+  },
+  {
+    q: 'ライフパスナンバーはどうやって計算しますか？',
+    a: '生年月日の数字をすべて合計し、一桁になるまで還元します。例: 1985年4月23日 → 1+9+8+5+0+4+2+3=32 → 3+2=5。計算はサーバー上のプログラムが行い、途中で 11・22・33 などが出てもそのまま還元します（マスターナンバーは採用しません）。',
+  },
+  {
+    q: '占いの結果は正確ですか？',
+    a: '数秘術や占いは科学的に裏付けられた予言ではありません。nume の解説は「自分を客観視するきっかけ」としてお楽しみください。結果はエンターテインメント・内省のためのものであり、専門的な助言ではありません。',
+  },
+  {
+    q: '生年月日などのデータはどう扱われますか？',
+    a: '入力された生年月日は占い解説を生成するためにサーバーで処理され、その場で破棄されます。アカウント登録は不要で、氏名や連絡先などの個人情報は一切収集しません。',
+  },
+  {
+    q: '同じ生年月日の人は同じナンバーになりますか？',
+    a: 'ライフパスナンバーは生年月日だけで決まるため、同じ誕生日なら同じナンバーになります。ただし、AI が生成する解説文はその都度変化するため、文章そのものは毎回異なります。',
+  },
+  {
+    q: '未来や病気・お金のことが当たりますか？',
+    a: 'nume は未来の予言ではなく、あなたの傾向・強み・使命を語るサービスです。病気・死期・具体的な金額の予言は行いません。健康や金融などの重要な判断は、必ず適切な専門家にご相談ください。',
+  },
+  {
+    q: 'マスターナンバー（11・22・33）には対応していますか？',
+    a: '対応していません。途中で 11・22・33 が出ても最後まで還元し、必ず 1〜9 のどれかになるシンプルな方式を採用しています。',
+  },
+  {
+    q: '入力できる生年月日に制限はありますか？',
+    a: '1900年1月1日から今日までの日付のみ受け付けます。それ以外の日付はエラーになります。',
+  },
+];
+
+const faqLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((faq) => ({
+    '@type': 'Question',
+    name: faq.q,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: faq.a,
+    },
+  })),
+};
+---
+
+<Layout title={title} description={description} ldJson={faqLd}>
+  <main class="min-h-screen bg-white text-[var(--text)]">
+    <div class="max-w-2xl mx-auto px-4 py-8 md:py-12">
+      <nav aria-label="パンくずリスト" class="text-sm text-[var(--text-muted)] mb-6">
+        <ol class="flex gap-2">
+          <li><a href="/" class="underline hover:text-[var(--accent-purple)]">ホーム</a></li>
+          <li aria-hidden="true">/</li>
+          <li aria-current="page">よくある質問</li>
+        </ol>
+      </nav>
+
+      <h1 class="text-2xl md:text-3xl font-bold text-[var(--accent-purple)] mb-6">
+        よくある質問
+      </h1>
+
+      <div class="space-y-6">
+        {faqs.map((faq, idx) => (
+          <section class="border-b border-[var(--border-subtle)] pb-6" aria-labelledby={`faq-${idx}`}>
+            <h2 id={`faq-${idx}`} class="text-lg font-bold text-[var(--accent-purple)] mb-2">
+              {faq.q}
+            </h2>
+            <p class="leading-relaxed">{faq.a}</p>
+          </section>
+        ))}
+      </div>
+
+      <div class="text-center mt-12">
+        <a
+          href="/"
+          class="inline-block px-6 py-3 rounded-full bg-[var(--accent-purple)] text-white font-bold hover:opacity-90 transition-opacity"
+        >
+          ライフパスナンバーを占う
+        </a>
+      </div>
+    </div>
+  </main>
+</Layout>

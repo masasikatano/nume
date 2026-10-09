@@ -1,0 +1,113 @@
+---
+export const prerender = true;
+
+import Layout from '@/layouts/Layout.astro';
+import { NUMBER_DATA, type NumberInfo } from '@/lib/numberData';
+import '@/styles/global.css';
+
+export function getStaticPaths() {
+  return Object.values(NUMBER_DATA).map((info) => ({
+    params: { n: String(info.n) },
+    props: { info },
+  }));
+}
+
+const { info } = Astro.props as { info: NumberInfo };
+const title = `ライフパスナンバー${info.n}「${info.keyword}」の意味・特徴・相性 | nume`;
+const description = `ライフパスナンバー${info.n}（キーワード: ${info.keyword}）の意味、性格・強み、注意点、相性の良いナンバーを解説します。生年月日からナンバーを計算する方法も紹介。`;
+const canonical = new URL(`/numbers/${info.n}`, Astro.site).toString();
+
+const articleLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: `ライフパスナンバー${info.n}「${info.keyword}」の意味`,
+  description,
+  author: {
+    '@type': 'Organization',
+    name: 'nume',
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'nume',
+    logo: {
+      '@type': 'ImageObject',
+      url: new URL('/favicon.svg', Astro.site).toString(),
+    },
+  },
+};
+---
+
+<Layout title={title} description={description} canonical={canonical} ogType="article" ldJson={articleLd}>
+  <main class="min-h-screen bg-white text-[var(--text)]">
+    <div class="max-w-2xl mx-auto px-4 py-8 md:py-12">
+      <nav aria-label="パンくずリスト" class="text-sm text-[var(--text-muted)] mb-6">
+        <ol class="flex gap-2">
+          <li><a href="/" class="underline hover:text-[var(--accent-purple)]">ホーム</a></li>
+          <li aria-hidden="true">/</li>
+          <li aria-current="page">ナンバー{info.n}</li>
+        </ol>
+      </nav>
+
+      <h1 class="text-2xl md:text-3xl font-bold text-[var(--accent-purple)] mb-2">
+        ライフパスナンバー{info.n}「{info.keyword}」
+      </h1>
+      <p class="text-[var(--text-muted)] mb-8">誕生日の全桁を合計して一桁に還元した数字が {info.n} になった方へのメッセージです。</p>
+
+      <section class="mb-10" aria-labelledby="meaning-heading">
+        <h2 id="meaning-heading" class="text-xl font-bold text-[var(--accent-purple)] mb-3">ナンバー{info.n}の意味</h2>
+        <p class="mb-3 leading-relaxed">{info.meaning}</p>
+        <p class="leading-relaxed">{info.summary}</p>
+      </section>
+
+      <section class="mb-10" aria-labelledby="traits-heading">
+        <h2 id="traits-heading" class="text-xl font-bold text-[var(--accent-purple)] mb-3">主な特徴</h2>
+        <ul class="list-disc pl-5 space-y-2">
+          {info.traits.map((t) => <li>{t}</li>)}
+        </ul>
+      </section>
+
+      <section class="mb-10" aria-labelledby="strengths-heading">
+        <h2 id="strengths-heading" class="text-xl font-bold text-[var(--accent-purple)] mb-3">強み</h2>
+        <ul class="list-disc pl-5 space-y-2">
+          {info.strengths.map((t) => <li>{t}</li>)}
+        </ul>
+      </section>
+
+      <section class="mb-10" aria-labelledby="cautions-heading">
+        <h2 id="cautions-heading" class="text-xl font-bold text-[var(--accent-purple)] mb-3">注意点</h2>
+        <ul class="list-disc pl-5 space-y-2">
+          {info.cautions.map((t) => <li>{t}</li>)}
+        </ul>
+      </section>
+
+      <section class="mb-10" aria-labelledby="compat-heading">
+        <h2 id="compat-heading" class="text-xl font-bold text-[var(--accent-purple)] mb-3">相性の良いナンバー</h2>
+        <p class="mb-3">ナンバー同士の組み合わせはあくまで傾向の目安です。</p>
+        <ul class="flex flex-wrap gap-2">
+          {info.compatibility.good.map((n) => (
+            <li>
+              <a
+                href={`/numbers/${n}`}
+                class="px-3 py-1 rounded-full bg-[var(--surface-lavender)] text-[var(--accent-purple)] text-sm font-medium hover:opacity-80"
+              >
+                {n}（{NUMBER_DATA[n].keyword}）
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <div class="text-center">
+        <a
+          href="/"
+          class="inline-block px-6 py-3 rounded-full bg-[var(--accent-purple)] text-white font-bold hover:opacity-90 transition-opacity"
+        >
+          自分のライフパスナンバーを占う
+        </a>
+        <p class="text-xs text-[var(--text-muted)] mt-4">
+          占いはエンターテイメント・内省のきっかけであり、専門的な助言ではありません。
+        </p>
+      </div>
+    </div>
+  </main>
+</Layout>
