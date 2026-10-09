@@ -35,6 +35,13 @@ const allLd = Array.isArray(ldJson) ? [webSiteLd, ...ldJson] : ldJson ? [webSite
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<script async src="https://www.googletagmanager.com/gtag/js?id=G-P9LRZ9MBXM"></script>
+		<script is:inline>
+			window.dataLayer = window.dataLayer || [];
+			function gtag(){window.dataLayer.push(arguments);}
+			gtag('js', new Date());
+			gtag('config', 'G-P9LRZ9MBXM');
+		</script>
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 		<link rel="manifest" href="/manifest.json" />
