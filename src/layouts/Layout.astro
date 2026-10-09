@@ -61,5 +61,12 @@ const allLd = Array.isArray(ldJson) ? [webSiteLd, ...ldJson] : ldJson ? [webSite
 	</head>
 	<body>
 		<slot />
+		<footer class="nume-footer">
+			<div>占いは利用者の特定の目的に適合すること、期待する結果・正確性・実現性を有すること及び不都合が生じない事について、何らの保証をするものではありません。</div>
+			<div>
+				© nume ／
+				<a href="https://tarot.scryer.workers.dev/" target="_blank" rel="noopener noreferrer">姉妹サービス: TarotScryer(タロット占い)</a>
+			</div>
+		</footer>
 	</body>
 </html>

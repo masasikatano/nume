@@ -88,6 +88,11 @@ body {
   border-top: 1px solid var(--border-subtle);
 }
 
+.nume-footer a {
+  color: #6b7fd7;
+  text-decoration: underline;
+}
+
 /* Section divider */
 .section-divider {
   position: relative;
