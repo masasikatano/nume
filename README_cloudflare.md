@@ -25,7 +25,7 @@ npx wrangler secret put GROQ_API_KEY
 # プロンプトが表示されたら Groq API キーを貼り付け
 
 npx wrangler secret put LLM_MODEL
-# 任意。利用可能なモデル名を入力（例: openai/gpt-oss-120b）
+# 任意。利用可能なモデル名を入力（例: openai/gpt-oss-20b）
 ```
 
 > **注意**: コード上のデフォルト値 `llama-3.3-70b-versatile` は Groq から退役済みのため、`LLM_MODEL` には利用可能なモデル名を設定してください（`GET https://api.groq.com/openai/v1/models` で一覧を確認できます）。
