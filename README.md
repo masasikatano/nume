@@ -7,6 +7,7 @@
 - **UI**: ライトモード、携帯特化。生年月日（`<input type="date">`）を入力するだけ
 - **計算**: 生年月日の全桁を合計して一桁に還元（マスターナンバーは非採用）。クライアント/サーバーで同一の純関数 `src/lib/numerology.ts` を共有
 - **解説**: ナンバーの意味・性格・強み・恋愛・仕事・使命を語る温かい数秘術師のトーン（800〜1200字、末尾に免責文）
+- **相性占い**: 生年月日を2つ入力。2人のライフパスナンバーペアから相性度（%）を算出し（`calcCompatibility`、numberData の相性データを元に決定論的）、相性解説をストリーミング生成。`/api/reading` に `birthdate2` を任意指定、SSE の先頭イベント `{"type":"compat","n1":..,"n2":..,"score":..}` でナンバーとスコアを送信
 - **LLM**: Groq（OpenAI 互換 API、`stream: true`）をサーバーサイドでプロキシし、`delta.content` を SSE でクライアントへ転送
 - **レートリミット**: IP ベース（12リクエスト / 5分）
 
@@ -49,6 +50,11 @@ npm run deploy
 curl -N -X POST http://localhost:4321/api/reading \
   -H 'Content-Type: application/json' \
   -d '{"birthdate":"1985-04-23"}'        # ライフパスナンバーは 5
+
+# 相性占い: 先頭に data: {"type":"compat","n1":..,"n2":..,"score":..}、その後に解説ストリーム
+curl -N -X POST http://localhost:4321/api/reading \
+  -H 'Content-Type: application/json' \
+  -d '{"birthdate":"1985-04-23","birthdate2":"1990-11-02"}'
 
 # 異常系: 不正な日付は 400
 curl -X POST http://localhost:4321/api/reading \

@@ -1,3 +1,5 @@
+import { NUMBER_DATA } from './numberData';
+
 const MIN_DATE = '1900-01-01';
 
 function toDate(date: string): Date | null {
@@ -31,4 +33,25 @@ export function calcLifePath(date: string): number {
     n = String(n).split('').reduce((acc, ch) => acc + Number(ch), 0);
   }
   return n;
+}
+
+/**
+ * 2つのライフパスナンバーから相性度（%）を算出する。
+ * numberData の相性（good / challenging）を元に決定論的に決める。
+ * 同じナンバー同士は自分自身との対話になるため高めに出る。
+ */
+export function calcCompatibility(a: number, b: number): number {
+  const infoA = NUMBER_DATA[a];
+  const infoB = NUMBER_DATA[b];
+  if (!infoA || !infoB) return 70;
+
+  if (a === b) return 90;
+
+  let score = 72;
+  if (infoA.compatibility.good.includes(b)) score += 14;
+  if (infoB.compatibility.good.includes(a)) score += 8;
+  if (infoA.compatibility.challenging.includes(b)) score -= 14;
+  if (infoB.compatibility.challenging.includes(a)) score -= 8;
+
+  return Math.min(98, Math.max(60, score));
 }

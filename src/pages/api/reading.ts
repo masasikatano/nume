@@ -2,12 +2,13 @@ import type { APIRoute } from 'astro';
 import { z } from 'zod';
 import { jsonResponse } from '@/lib/api-response';
 import { checkRateLimit, getClientIp } from '@/lib/rateLimit';
-import { calcLifePath, isValidBirthdate } from '@/lib/numerology';
-import { getSystemPrompt, buildUserPrompt, DEFAULT_MODEL } from '@/lib/prompts';
+import { calcLifePath, calcCompatibility, isValidBirthdate } from '@/lib/numerology';
+import { getSystemPrompt, buildUserPrompt, getCompatibilitySystemPrompt, buildCompatibilityUserPrompt, DEFAULT_MODEL } from '@/lib/prompts';
 import { GROQ_API_KEY, LLM_MODEL } from 'astro:env/server';
 
 const BodySchema = z.object({
   birthdate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+  birthdate2: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional(),
 });
 
 const GROQ_URL = 'https://api.groq.com/openai/v1/chat/completions';
@@ -104,8 +105,18 @@ export const POST: APIRoute = async ({ request }) => {
     );
   }
 
-  const { birthdate } = parsed.data;
+  const { birthdate, birthdate2 } = parsed.data;
+  const isCompat = birthdate2 !== undefined;
+  if (isCompat && !isValidBirthdate(birthdate2)) {
+    return jsonResponse(
+      { error: { code: 'BAD_REQUEST', message: '2人目の生年月日が正しくありません。1900年1月1日以降の日付を入力してください。' } },
+      { status: 400 },
+    );
+  }
+
   const lifePath = calcLifePath(birthdate);
+  const lifePath2 = isCompat ? calcLifePath(birthdate2) : null;
+  const score = isCompat && lifePath2 !== null ? calcCompatibility(lifePath, lifePath2) : null;
   const apiKey = GROQ_API_KEY;
 
   if (!apiKey) {
@@ -118,10 +129,15 @@ export const POST: APIRoute = async ({ request }) => {
 
   const model = LLM_MODEL || DEFAULT_MODEL;
 
-  const messages = [
-    { role: 'system' as const, content: getSystemPrompt() },
-    { role: 'user' as const, content: buildUserPrompt(birthdate, lifePath) },
-  ];
+  const messages = isCompat && lifePath2 !== null && score !== null
+    ? [
+        { role: 'system' as const, content: getCompatibilitySystemPrompt() },
+        { role: 'user' as const, content: buildCompatibilityUserPrompt(birthdate, lifePath, birthdate2, lifePath2, score) },
+      ]
+    : [
+        { role: 'system' as const, content: getSystemPrompt() },
+        { role: 'user' as const, content: buildUserPrompt(birthdate, lifePath) },
+      ];
 
   let upstreamRes: Response;
   try {
@@ -169,6 +185,13 @@ export const POST: APIRoute = async ({ request }) => {
   const stream = new ReadableStream<Uint8Array>({
     async start(controller) {
       try {
+        if (isCompat && lifePath2 !== null && score !== null) {
+          controller.enqueue(
+            encoder.encode(
+              `data: ${JSON.stringify({ type: 'compat', n1: lifePath, n2: lifePath2, score })}\n\n`,
+            ),
+          );
+        }
         await pipeGroqStream(upstreamRes.body as ReadableStream<Uint8Array>, controller, encoder);
       } catch (err: unknown) {
         console.error('Stream pipe error', err);
