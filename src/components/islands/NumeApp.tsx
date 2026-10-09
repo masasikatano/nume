@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { calcLifePath, isValidBirthdate } from '@/lib/numerology';
-import { getNumberInfo } from '@/lib/numberData';
+import { NUMBER_DATA, getNumberInfo } from '@/lib/numberData';
 
 type Phase = 'input' | 'reading' | 'done' | 'error';
 type Mode = 'solo' | 'compat';
@@ -198,7 +198,7 @@ export default function NumeApp() {
         {!showResult && (
           <>
             <div className="intro">
-              <div className="hero-icon" aria-hidden="true">✦</div>
+              <div className="hero-icon" aria-hidden="true">🔢</div>
               <h1 className="hero-title">数字が語る、あなたの物語</h1>
               <p className="hero-subtitle">
                 生年月日を入力するだけ。ライフパスナンバーがあなたの強みと使命を、ふたりなら絆の相性を教えてくれます。
@@ -272,6 +272,21 @@ export default function NumeApp() {
               >
                 {mode === 'compat' ? '相性を占う' : '占う'}
               </button>
+            </div>
+
+            <div className="section-divider"><span>ナンバー1〜9を見る</span></div>
+
+            <div className="number-cards">
+              {Object.values(NUMBER_DATA).map((info) => (
+                <a key={info.n} href={`/numbers/${info.n}`} className="number-card">
+                  <div className="number-card-digit" aria-hidden="true">{info.n}</div>
+                  <div className="number-card-body">
+                    <div className="number-card-title">ナンバー{info.n}「{info.keyword}」</div>
+                    <div className="number-card-summary">{info.summary}</div>
+                  </div>
+                  <div className="number-card-arrow" aria-hidden="true">›</div>
+                </a>
+              ))}
             </div>
           </>
         )}
