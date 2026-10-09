@@ -198,7 +198,7 @@ export default function NumeApp() {
         {!showResult && (
           <>
             <div className="intro">
-              <div className="hero-icon" aria-hidden="true">🔢</div>
+              <div className="hero-icon" aria-hidden="true">🌌</div>
               <h1 className="hero-title">数秘術がつなぐあなたの物語</h1>
               <p className="hero-subtitle">
                 生年月日を入力するだけ。ライフパスナンバーがあなたの強みと使命を、ふたりなら絆の相性を教えてくれます。
