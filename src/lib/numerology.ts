@@ -12,6 +12,33 @@ function toDate(date: string): Date | null {
   return parsed;
 }
 
+/**
+ * ユーザー入力（"19900512" / "1990/05/12" / "1990年5月12日" / "1985828" など）を
+ * YYYY-MM-DD 形式に正規化する。解釈できない入力は null を返す。
+ * 6〜7桁の連数字は「年4桁 + 残りを月日に分解」して解釈する
+ * （7桁は M-DD / MM-D の両方を試し、有効なほうを採用する）。
+ */
+export function normalizeBirthdate(input: string): string | null {
+  const separated = input.match(/(\d{4})\D+(\d{1,2})\D+(\d{1,2})/);
+  if (separated) {
+    return `${separated[1]}-${separated[2].padStart(2, '0')}-${separated[3].padStart(2, '0')}`;
+  }
+  const digits = input.replace(/\D/g, '');
+  const y = digits.slice(0, 4);
+  if (/^\d{8}$/.test(digits)) {
+    return `${y}-${digits.slice(4, 6)}-${digits.slice(6, 8)}`;
+  }
+  if (/^\d{6}$/.test(digits)) {
+    return `${y}-${digits[4].padStart(2, '0')}-${digits[5].padStart(2, '0')}`;
+  }
+  if (/^\d{7}$/.test(digits)) {
+    const asMonth1Day2 = `${y}-${digits[4].padStart(2, '0')}-${digits.slice(5)}`;
+    if (isValidBirthdate(asMonth1Day2)) return asMonth1Day2;
+    return `${y}-${digits.slice(4, 6)}-${digits[6].padStart(2, '0')}`;
+  }
+  return null;
+}
+
 export function isValidBirthdate(date: string): boolean {
   const d = toDate(date);
   if (!d) return false;

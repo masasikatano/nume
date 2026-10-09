@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { calcLifePath, isValidBirthdate } from '@/lib/numerology';
+import { calcLifePath, isValidBirthdate, normalizeBirthdate } from '@/lib/numerology';
 import { NUMBER_DATA, getNumberInfo } from '@/lib/numberData';
 
 type Phase = 'input' | 'reading' | 'done' | 'error';
@@ -9,14 +9,6 @@ interface CompatInfo {
   n1: number;
   n2: number;
   score: number;
-}
-
-function todayStr(): string {
-  const d = new Date();
-  const y = d.getFullYear();
-  const m = String(d.getMonth() + 1).padStart(2, '0');
-  const day = String(d.getDate()).padStart(2, '0');
-  return `${y}-${m}-${day}`;
 }
 
 export default function NumeApp() {
@@ -32,19 +24,21 @@ export default function NumeApp() {
   const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = () => {
-    if (!isValidBirthdate(birthdate)) {
-      setError('1900年1月1日以降の、正しい生年月日を入力してください。');
+    const date1 = normalizeBirthdate(birthdate);
+    if (!date1 || !isValidBirthdate(date1)) {
+      setError('1900年1月1日以降の、正しい生年月日を入力してください（例: 1990年5月12日）。');
       return;
     }
     if (mode === 'compat') {
-      if (!isValidBirthdate(birthdate2)) {
-        setError('2人目の生年月日も、1900年1月1日以降の正しい日付で入力してください。');
+      const date2 = normalizeBirthdate(birthdate2);
+      if (!date2 || !isValidBirthdate(date2)) {
+        setError('2人目の生年月日も、1900年1月1日以降の正しい日付で入力してください（例: 1992年11月2日）。');
         return;
       }
-      void runReading(birthdate, birthdate2);
+      void runReading(date1, date2);
       return;
     }
-    void runReading(birthdate);
+    void runReading(date1);
   };
 
   const handleRetry = () => {
@@ -234,10 +228,11 @@ export default function NumeApp() {
               </label>
               <input
                 id="birthdate"
-                type="date"
+                type="text"
+                inputMode="numeric"
+                autoComplete="bday"
+                placeholder="例: 1990年5月12日"
                 className="birth-input"
-                min="1900-01-01"
-                max={todayStr()}
                 value={birthdate}
                 onChange={(e) => {
                   setBirthdate(e.target.value);
@@ -251,10 +246,10 @@ export default function NumeApp() {
                   </label>
                   <input
                     id="birthdate2"
-                    type="date"
+                    type="text"
+                    inputMode="numeric"
+                    placeholder="例: 1992年11月2日"
                     className="birth-input"
-                    min="1900-01-01"
-                    max={todayStr()}
                     value={birthdate2}
                     onChange={(e) => {
                       setBirthdate2(e.target.value);
