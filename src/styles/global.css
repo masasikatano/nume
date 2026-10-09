@@ -3,15 +3,15 @@
 :root {
   --bg: #ffffff;
   --surface: #ffffff;
-  --surface-pink: #fff3f8;
-  --border-subtle: #f0e0e8;
+  --surface-pink: #fdf2f7;
+  --border-subtle: #f0dbe6;
   --text: #3a3a3a;
   --text-muted: #777777;
-  --accent-pink: #ff6fa5;
-  --accent-pink-light: #ff87b5;
-  --accent-pink-pale: #ffd3e4;
-  --accent-pink-deep: #e64980;
-  --input-bg: #faf6f8;
+  --accent-pink: #c71585;
+  --accent-pink-light: #d946a3;
+  --accent-pink-pale: #f3c6dd;
+  --accent-pink-deep: #8b0a50;
+  --input-bg: #faf5f8;
   --footer-bg: #292929;
 }
 
@@ -132,10 +132,10 @@ body {
   border-radius: 0 0 28px 28px;
   overflow: hidden;
   background:
-    linear-gradient(160deg, rgba(230, 73, 128, 0.88) 0%, rgba(255, 111, 165, 0.82) 55%, rgba(255, 168, 201, 0.78) 100%),
+    linear-gradient(160deg, rgba(199, 21, 133, 0.88) 0%, rgba(255, 111, 165, 0.82) 55%, rgba(255, 168, 201, 0.78) 100%),
     url('/images/teller-hero-gemini.png') center 30% / cover no-repeat;
   color: #ffffff;
-  box-shadow: 0 6px 20px rgba(230, 73, 128, 0.22);
+  box-shadow: 0 6px 20px rgba(199, 21, 133, 0.22);
 }
 
 .hero-icon {
@@ -188,7 +188,7 @@ body {
 
 .birth-input:focus {
   border-color: var(--accent-pink);
-  box-shadow: 0 0 0 3px rgba(230, 73, 128, 0.12);
+  box-shadow: 0 0 0 3px rgba(199, 21, 133, 0.12);
   background: #fff;
 }
 
@@ -232,7 +232,7 @@ body {
   border-radius: 24px;
   border: 1px solid var(--accent-pink-pale);
   background: var(--surface-pink);
-  box-shadow: 0 4px 18px rgba(230, 73, 128, 0.10);
+  box-shadow: 0 4px 18px rgba(199, 21, 133, 0.10);
 }
 
 .number-hero-digit {
@@ -243,7 +243,7 @@ body {
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  filter: drop-shadow(0 3px 10px rgba(230, 73, 128, 0.30));
+  filter: drop-shadow(0 3px 10px rgba(199, 21, 133, 0.30));
 }
 
 .number-hero-keyword {
@@ -392,12 +392,12 @@ body {
 .action-btn-primary {
   background: linear-gradient(to bottom, var(--accent-pink-light), var(--accent-pink));
   color: #fff;
-  box-shadow: 0 3px 0 #c23568, 0 4px 10px rgba(230, 73, 128, 0.25);
+  box-shadow: 0 3px 0 #c23568, 0 4px 10px rgba(199, 21, 133, 0.25);
 }
 
 .action-btn-primary:active:not(:disabled) {
   transform: translateY(2px);
-  box-shadow: 0 1px 0 #c23568, 0 2px 6px rgba(230, 73, 128, 0.25);
+  box-shadow: 0 1px 0 #c23568, 0 2px 6px rgba(199, 21, 133, 0.25);
 }
 
 /* Mode tabs */
@@ -428,7 +428,7 @@ body {
   background: linear-gradient(to bottom, var(--accent-pink-light), var(--accent-pink));
   color: #fff;
   border-color: var(--accent-pink);
-  box-shadow: 0 2px 8px rgba(230, 73, 128, 0.25);
+  box-shadow: 0 2px 8px rgba(199, 21, 133, 0.25);
 }
 
 /* Number menu cards (input screen) */
@@ -447,7 +447,7 @@ body {
   border-radius: 18px;
   background: #fff;
   border: 1px solid var(--border-subtle);
-  box-shadow: 0 2px 10px rgba(230, 73, 128, 0.06);
+  box-shadow: 0 2px 10px rgba(199, 21, 133, 0.06);
   text-decoration: none;
   color: inherit;
   transition: transform 0.12s ease, box-shadow 0.12s ease;
@@ -455,7 +455,7 @@ body {
 
 .number-card:active {
   transform: scale(0.98);
-  box-shadow: 0 1px 6px rgba(230, 73, 128, 0.10);
+  box-shadow: 0 1px 6px rgba(199, 21, 133, 0.10);
 }
 
 .number-card-digit {
@@ -470,7 +470,7 @@ body {
   font-weight: 800;
   color: #fff;
   background: linear-gradient(180deg, var(--accent-pink-light) 0%, var(--accent-pink-deep) 100%);
-  box-shadow: 0 2px 8px rgba(230, 73, 128, 0.30);
+  box-shadow: 0 2px 8px rgba(199, 21, 133, 0.30);
 }
 
 .number-card-body {
