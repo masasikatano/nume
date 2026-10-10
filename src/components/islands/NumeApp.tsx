@@ -43,7 +43,10 @@ export default function NumeApp() {
 
   const handleRetry = () => {
     if (!lifePath) return;
-    void runReading(birthdate, mode === 'compat' ? birthdate2 : undefined);
+    const date1 = normalizeBirthdate(birthdate);
+    if (!date1) return;
+    const date2 = mode === 'compat' ? normalizeBirthdate(birthdate2) ?? undefined : undefined;
+    void runReading(date1, date2);
   };
 
   const handleGoCompat = () => {
@@ -77,7 +80,6 @@ export default function NumeApp() {
     const n = calcLifePath(date);
     setLifePath(n);
     setCompat(null);
-    setBirthdate(date);
     setReading('');
     setError(null);
     setPhase('reading');
