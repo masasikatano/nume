@@ -231,7 +231,7 @@ export default function NumeApp() {
                 type="text"
                 inputMode="numeric"
                 autoComplete="bday"
-                placeholder="例: 1990年5月12日"
+                placeholder="1990925"
                 className="birth-input"
                 value={birthdate}
                 onChange={(e) => {
@@ -248,7 +248,7 @@ export default function NumeApp() {
                     id="birthdate2"
                     type="text"
                     inputMode="numeric"
-                    placeholder="例: 1992年11月2日"
+                    placeholder="1990925"
                     className="birth-input"
                     value={birthdate2}
                     onChange={(e) => {
