@@ -46,6 +46,17 @@ export default function NumeApp() {
     void runReading(birthdate, mode === 'compat' ? birthdate2 : undefined);
   };
 
+  const handleGoCompat = () => {
+    abortControllerRef.current?.abort();
+    setLifePath(null);
+    setCompat(null);
+    setReading('');
+    setMode('compat');
+    setError(null);
+    setPhase('input');
+    mainRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   const handleReset = () => {
     abortControllerRef.current?.abort();
     setBirthdate('');
@@ -393,8 +404,8 @@ export default function NumeApp() {
               )}
               {phase === 'done' && (
                 <>
-                  <button type="button" onClick={handleReset} className="action-btn action-btn-primary">
-                    もう一度占う
+                  <button type="button" onClick={handleGoCompat} className="action-btn action-btn-primary">
+                    2人目を占う
                   </button>
                   <a href={`/numbers/${lifePath}`} className="action-btn action-btn-secondary number-link-btn">
                     ナンバー{lifePath}「{numberInfo.keyword}」の解説ページへ
